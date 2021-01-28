@@ -2,7 +2,7 @@ var app = angular.module('Blog', ['ngRoute']);
 
 app.config(['$routeProvider', function config($routeProvider) {
   $routeProvider.
-  when('/posts', {
+  when('/posts/page/:page_id', {
     templateUrl: 'pages/home.html',
     controller: "PostsController"
   }).
@@ -54,7 +54,7 @@ app.config(['$routeProvider', function config($routeProvider) {
     templateUrl: 'pages/edit_user.html',
     controller: "PostsController"
   }).otherwise({
-    redirectTo: '/posts',
+    redirectTo: '/posts/page/1',
     controller: "PostsController"
   });
 }]);
@@ -181,9 +181,12 @@ app.controller('AplicationController', ['$scope', 'userService', '$location', fu
 app.controller('PostsController', ['$scope', 'postService', '$location', '$routeParams', '$window', 'commentService', 'tagService', function ($scope, postService, $location, $routeParams, $window, commentService, tagService) {
 
   // Pega todos os posts
-  postService.getAll().then(function (response) {
-    $scope.posts = response;
-  })
+  if ($routeParams.page_id) {
+    postService.getAll($routeParams.page_id).then(function (response) {
+      $scope.posts = response;
+    })
+  }
+  
 
   //Tags
   $scope.editTags = function (post_id) {
@@ -211,8 +214,24 @@ app.controller('PostsController', ['$scope', 'postService', '$location', '$route
     $location.url('/create/post');
   };
 
-  $scope.seePosts = function () {
-    $location.url('/posts');
+  $scope.seePosts = function (page_id) {
+    $location.url('/posts/page/' + page_id);
+  };
+
+  $scope.nextPage = function () {
+    let pageCount = parseInt($routeParams.page_id) + 1
+    $location.url('/posts/page/' + pageCount);
+  };
+
+  $scope.previousPage = function () {
+    let pageCount = 0
+    if(parseInt($routeParams.page_id) - 1 > 0){
+       pageCount = parseInt($routeParams.page_id) - 1
+    }
+    else {
+       pageCount = parseInt($routeParams.page_id)
+    }
+    $location.url('/posts/page/' + pageCount);
   };
 
   $scope.updatePost = function (post_id) {
@@ -371,8 +390,8 @@ app.controller('PostController', ['$scope', 'postService', '$location', '$routeP
     $location.url('/create/post');
   };
 
-  $scope.seePosts = function () {
-    $location.url('/posts');
+  $scope.seePosts = function (page_id) {
+    $location.url('/posts/page/' + page_id);
   };
 
   $scope.updatePost = function (post_id) {
@@ -418,7 +437,7 @@ app.service('postService', function ($http) {
     }
   }).then((response) => response.data)
 
-  const getAll = () => $http.get(`http://localhost:3000/posts.json`).then((response) => response.data)
+  const getAll = (page_id) => $http.get(`http://localhost:3000/posts.json?page=${page_id}`).then((response) => response.data)
 
   const deleteOne = (post_id) => $http.delete(`http://localhost:3000/posts/${post_id}.json`, {
     headers: {
