@@ -1,0 +1,25 @@
+<div>
+   <h1 class="text-center text-light mt-3">Criar Usuário</h1>
+   <form>
+      <div class="form-group text-light">
+         <label>Name</label>
+         <input type="text" class="form-control bg-dark" placeholder="Insira o seu nome" value="{{logged_user_name()}}"
+            ng-model="user.name" minlength="2">
+      </div>
+      <div class="form-group text-light">
+         <label>Email</label>
+         <input type="email" class="form-control bg-dark" placeholder="Insira o Email" value="{{logged_user_email()}}"
+            ng-model="user.email" minlength="5">
+      </div>
+      <div class="form-group text-light">
+         <label>Password</label>
+         <input type="password" class="form-control bg-dark" placeholder="Insira a senha" value="{{}}"
+            ng-model="user.password" minlength="6">
+      </div>
+      <div class="d-flex">
+         <button type="submit" class="btn btn-dark" ng-click="signup(user)">Atualizar</button>
+         <p class="text-muted flex-sm-row ml-3">Já possui uma conta? <a ng-click="loginPath()" class="link"
+               href="">Logue-se</a></p>
+      </div>
+   </form>
+</div>

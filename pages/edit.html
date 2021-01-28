@@ -1,0 +1,21 @@
+<a class="btn btn-transparent ml-2 mt-3 mb-2 btn-sm" ng-click="seePosts()"><i class="fas fa-arrow-left fa-3x"></i></a>
+
+<div class="container">
+   <h1 class="text-center text-light mt-2">Atualizar Post</h1>
+   <form>
+      <div class="form-group text-light">
+         <input type="hidden" value="{{post.id}}" ng-model="post.id">
+      </div>
+      <div class="form-group text-light">
+         <label>Titulo</label>
+         <input type="text" class="form-control bg-dark" id="titlePost" placeholder="Insira o titulo"
+            value="{{post.title}}" ng-model="post.title" minlength="1">
+      </div>
+      <div class="form-group text-light">
+         <label class="mr-2">Descrição</label><small class="text-muted">Min. 10 caractéres</small>
+         <textarea class="form-control bg-dark " id="exampleFormControlTextarea1" rows="3"
+            placeholder="Insira a descrição" ng-model="post.description" minlength="10">{{post.description}}</textarea>
+      </div>
+      <button type="submit" class="btn btn-dark" ng-click="changePost(post)">Atualizar</button>
+   </form>
+</div>

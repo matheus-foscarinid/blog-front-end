@@ -1,0 +1,42 @@
+ <a class="btn btn-dark mt-3" ng-click="createPost()" ng-if=" is_logged()"><i class="fas fa-plus-circle"></i> Create</a>
+ <div ng-if="!is_logged()">
+   <p class="text-muted mt-3"><a ng-click="loginPath()" class="link">Logue-se</a> ou <a ng-click="signupPath()"
+       class="link">Crie uma conta</a> para poder fazer postagens!</p>
+ </div>
+ <div ng-repeat="post in posts" class="mb-3">
+   <div class="card mt-3 hover">
+     <div class="card-body card-hover" ng-click="openPost(post.id)">
+       <small class="card-subtitle mb-2 text-muted" style="position: absolute; right: 15px; top: 15px;">ID:
+         {{post.id}}</small>
+       <h5 class="card-title"><b>{{post.title}}</b></h5>
+       <small class="card-subtitle mb-2 text-muted">Criado por <b>{{post.user.name}} em
+           {{post.updated_at | date:"dd/MM/yy 'as' h:mma"}}</b></small>
+       <p class="card-text">{{post.description}}</p>
+
+
+     </div>
+     <hr />
+     <div class="mb-3">
+
+       <a class="btn btn-transparent ml-2 btn-sm" ng-click="openPost(post.id)" style="float: left;"><i
+           class="fas fa-eye"></i> See</a>
+       <div ng-if=" logged_user_email() == post.user.email">
+         <a class="btn btn-transparent ml-2 btn-sm" ng-click="deletePost(post.id)" style="float: left;"><i
+             class="fas fa-trash-alt"></i> Delete</a>
+         <a class="btn btn-transparent ml-2 btn-sm" ng-click="updatePost(post.id)" style="float: left;"><i
+             class="fas fa-pen-alt"></i> Update</a>
+         <a class="btn btn-transparent ml-2 btn-sm" ng-click="editTags(post.id)" style="float: left;"><i
+             class="fas fa-tags"></i> Tags</a>
+       </div>
+     </div>
+
+     <div class="mt-2" style="position: absolute; bottom: 15px; right: 35px;">
+       <div class="row">
+         <div ng-repeat="tag in post.tags" class="ml-2">
+           <span class="badge badge-info col-sm">{{tag.name}}</span>
+         </div>
+       </div>
+     </div>
+
+   </div>
+ </div>

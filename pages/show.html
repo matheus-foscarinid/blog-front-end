@@ -1,0 +1,45 @@
+<a class="btn btn-transparent ml-2 mt-3 mb-2 btn-sm" ng-click="seePosts()" style="float: left;"><i
+    class="fas fa-arrow-left fa-3x"></i></a>
+
+<div class="card mt-3" style="width: 100%; background-color: #333; color: rgb(214, 214, 214);">
+  <div class="card-body">
+    <h6 class="card-subtitle mb-2 text-muted" style="position: absolute; right: 15px;">Autor: {{post.user.name}}</h6>
+    <h6 class="card-subtitle mb-2 text-muted" style="position: absolute; right: 15px; top: 50px;">
+      {{post.updated_at | date :'short'}}</h6>
+    <h4 class="card-title">{{post.title}}</h4>
+    <small class="card-subtitle mb-2 text-muted">ID: {{post.id}}</small>
+    <p class="card-text">{{post.description}}</p>
+
+    <div class="row mt-2">
+      <div ng-repeat="tag in post.tags" class="ml-2">
+        <span class="badge badge-info col-sm">{{tag.name}}</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="card-body ml-3 mt-2 dark-card">
+  <form class="" autocomplete="off">
+    <div class="d-flex" style="width: 100%;">
+      <div class="form-group w-100 mr-3">
+        <input type="text" class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp"
+          placeholder="Adicione um comentário..." ng-model="newComment.text">
+      </div>
+      <button type="submit" class="btn btn-dark btn-small flex-shrink-1 mb-2" ng-click="createComment(newComment)">Submit</button>
+    </div>
+  </form>
+</div>
+
+<div ng-repeat="comment in post.comments" class="mt-2" style="width: 100%; color: rgb(214, 214, 214);">
+  <div class="card-body ml-3 dark-card">
+    <h4 class="card-title">Autor: {{comment.user.name}}</h4>
+    <small class="card-subtitle mb-2 text-muted">Comment ID: {{comment.id}} / Replying to: {{post.user.name}}</small>
+    <p class="card-text">{{comment.text}}</p>
+    <div ng-if="logged_user_email() == comment.user.email">
+      <button class="btn btn-dark ml-2 btn-sm" ng-click="destroyComment(post.id, comment.id)">Delete</button>
+      <a class="btn btn-dark ml-2 btn-sm" ng-click="editComment(post.id, comment.id)">Update</a>
+    </div>
+
+  </div>
+</div>

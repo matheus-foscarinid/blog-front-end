@@ -1,0 +1,21 @@
+<div>
+   <h1 class="text-center text-light mt-2">Logue-se</h1>
+   <form>
+      <div class="form-group text-light">
+         <label>Email</label>
+         <input type="email" class="form-control bg-dark" placeholder="Insira o Email" value="{{user.email}}"
+            ng-model="user.email" minlength="5">
+      </div>
+      <div class="form-group text-light">
+         <label>Password</label>
+         <input type="password" class="form-control bg-dark" placeholder="Insira a senha" value="{{user.password}}"
+            ng-model="user.password" minlength="6">
+      </div>
+      <div class="d-flex">
+         <button type="submit" class="btn btn-dark flex-sm-row" ng-click="login(user)">Atualizar</button>
+         <p class="text-muted flex-sm-row ml-3">Não tem uma conta ainda? <a ng-click="signupPath()" class="link"
+               href="">Cadastre-se</a></p>
+      </div>
+
+   </form>
+</div>

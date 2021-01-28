@@ -1,0 +1,35 @@
+<a class="btn btn-transparent ml-2 mt-3 mb-2 btn-sm" ng-click="seePosts()" style="float: left;"><i
+      class="fas fa-arrow-left fa-3x"></i></a>
+
+<div class="card user-card-full mt-5">
+   <div class="row m-0">
+      <div class="col-sm-4 bg-c-lite-green user-profile">
+         <div class="card-block text-center">
+            <div class="m-b-25"> <img src="https://hostsandservices.com.br/img/user.png" class="img-radius mt-3"> </div>
+            <h6 class=""><b>{{logged_user_name()}}</b></h6>
+         </div>
+      </div>
+
+      <div class="col-sm-7">
+         <div class="card-block">
+            <h6 class="m-b-20 b-b-default ">Informações</h6>
+            <div class="row">
+               <div class="col-sm-6">
+                  <p class="m-b-10 ">Email</p>
+                  <h6 class="text-muted">{{logged_user_email()}}</h6>
+               </div>
+               <div class="col-sm-6">
+                  <p class="m-b-10 ">User ID</p>
+                  <h6 class="text-muted"> User nro. {{logged_user_id()}}</h6>
+               </div>
+            </div>
+            <h6 class="m-b-20 m-t-40 b-b-default ">Opções</h6>
+            <button class="btn btn-dark" ng-click="editUserPath(logged_user_name(), logged_user_email())"><i
+                  class="fas fa-edit"></i> Edit</button>
+            <a class="btn btn-dark" href="#/"><i class="fas fa-home"></i> Home Page</a>
+            <a class="btn btn-danger ml-2" ng-click="destroyUser(logged_user_id())"><i class="fas fa-trash"></i>
+               Delete</a>
+         </div>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,217 @@
+.nav-class{
+   background-color: #111 !important;
+}
+
+body{
+   background: rgb(19,19,19);
+   background: linear-gradient(0deg, rgba(19,19,19,1) 0%, rgba(37,37,37,1) 100%);
+   background-repeat: no-repeat;
+   background-attachment: fixed;
+   color: whitesmoke;
+}
+
+input{
+   color: whitesmoke !important;
+   background-color: #222 !important;
+   border: 1px solid #111 !important;
+}
+
+.dark-card{
+   border-left: 3px solid #222; 
+   background-color: #333;
+   color: whitesmoke !important;
+}
+
+ul{
+   padding: 0 !important;
+}
+
+.btn-transparent{
+   color: whitesmoke !important;
+   background-color: none !important;
+    border: none;
+    overflow: hidden; 
+    outline:none;
+}
+
+.alert-dark{
+   background-color: rgba(255, 255, 255, 0.5) !important;
+   border: 1px solid #444;
+   color: whitesmoke !important;
+   -webkit-box-shadow: 6px 5px 10px -4px rgba(0,0,0,0.66); 
+   box-shadow: 6px 5px 10px -4px rgba(0,0,0,0.66);
+}
+
+.display-n{
+   display: none;
+   position: absolute !important;
+   top: 65px !important;
+   right: 15px !important;
+   width: 33%;
+   animation-name: fadeOut;
+   animation-duration: 1s;
+   animation-delay: 2s;
+   animation-fill-mode: forwards;
+}
+
+.btn-transparent:hover{
+   color: rgb(185, 185, 185) !important;
+}
+
+.btn-transparent:active{
+   color: rgb(63, 63, 63) !important;
+}
+
+.car-title{
+   margin-bottom: 0px !important;
+}
+
+textarea{
+   color: whitesmoke !important;
+   border: none !important;
+}
+hr {
+   margin-top: 0px;
+   margin-bottom: 10px;
+   border: 0;
+   border-top: 1px solid rgba(0, 0, 0, 0.15);
+ }
+
+.card{
+   border-radius: 15px !important;
+}
+
+.card-hover:hover{
+   background-color: rgba(47, 47, 47, 0.431);
+}
+
+.btn-dark{
+   background-color: #222 !important;
+   border: 1px solid #111;
+}
+
+.card{
+   width: 100%; 
+   background-color: #333; 
+}
+
+.test{
+   padding: 0;
+   border: none;
+   background: none;
+   margin-left: 4px;
+}
+
+.test:after{
+   display: inline-block;
+   content: "\00d7"; /* This will render the 'X' */
+   
+ }
+
+.bg-dark{
+   background-color: #111 !important;
+}
+
+.dark-item{
+   color: whitesmoke !important;
+}
+
+.dark-item:hover{
+   background-color: #222 !important;
+
+}
+
+.nav-link{
+   color: whitesmoke !important;
+   text-decoration: none;
+}
+
+.card {
+   border-radius: 5px;
+   border: none;
+   margin-bottom: 30px
+}
+
+.m-0 {
+   margin-right: 0px;
+   margin-left: 0px
+}
+
+.user-card-full .user-profile {
+   border-radius: 5px 0 0 5px
+}
+
+.bg-c-lite-green {
+   background: -webkit-gradient(linear, left top, right top, from(#cde7ff), to(#00435d));
+   background: linear-gradient(to right, #16232e, #2b4853)
+}
+
+.card-block {
+   padding: 1.25rem
+}
+
+.m-b-25 {
+   margin-bottom: 25px
+}
+
+.img-radius {
+   border-radius: 5px;
+   width: 130px;
+}
+
+.card-block {
+   padding: 1.25rem
+}
+
+.b-b-default {
+   border-bottom: 1px solid #e0e0e0
+}
+
+.m-b-20 {
+   margin-bottom: 20px
+}
+
+.card .card-block p {
+   line-height: 25px
+}
+
+
+.b-b-default {
+   border-bottom: 1px solid #e0e0e0
+}
+
+.m-b-20 {
+   margin-bottom: 20px
+}
+
+.m-t-40 {
+   margin-top: 20px
+}
+
+
+.user-card-full .social-link li {
+   display: inline-block
+}
+
+.user-card-full .social-link li a {
+   font-size: 20px;
+   margin: 0 10px 0 0;
+   -webkit-transition: all 0.3s ease-in-out;
+   transition: all 0.3s ease-in-out
+}
+
+.link{
+   text-decoration: none;
+   color: rgba(245, 245, 245, 0.7) !important;
+}
+
+.link:hover{
+   text-decoration: none;
+   font-weight: bold;
+   color: rgba(245, 245, 245, 0.85) !important;
+}
+
+@keyframes fadeOut {
+   0% {opacity: 1;}
+   100% {opacity: 0;}
+}

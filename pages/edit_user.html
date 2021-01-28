@@ -1,0 +1,24 @@
+<div>
+   <h1 class="text-center text-light mt-3">Editar Usuário</h1>
+   <form>
+      <div class="form-group text-light">
+         <label>Name</label>
+         <input type="text" class="form-control bg-dark" placeholder="Insira o seu nome" ng-model="name" minlength="5">
+      </div>
+      <div class="form-group text-light">
+         <label>Email</label>
+         <input type="email" class="form-control bg-dark" placeholder="Insira o Email" ng-model="email" minlength="10">
+      </div>
+      <div class="form-group text-light">
+         <label>Password</label>
+         <input type="password" class="form-control bg-dark" placeholder="Insira uma nova senha" ng-model="password"
+            minlength="6">
+      </div>
+      <div class="d-flex">
+         <button type="submit" class="btn btn-dark"
+            ng-click="editUser(logged_user_id(), name, email, password)">Atualizar</button>
+         <p class="text-muted flex-sm-row ml-3">Já possui uma conta? <a ng-click="loginPath()" class="link"
+               href="">Logue-se</a></p>
+      </div>
+   </form>
+</div>
