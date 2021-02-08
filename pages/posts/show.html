@@ -19,7 +19,7 @@
   </div>
 </div>
 
-<div class="card-body ml-3 mt-2 dark-card">
+<div class="card-body ml-3 mt-2 dark-card" ng-if="is_logged()">
   <form class="" autocomplete="off">
     <div class="d-flex" style="width: 100%;">
       <div class="form-group w-100 mr-3">
@@ -33,12 +33,14 @@
 
 <div ng-repeat="comment in post.comments" class="mt-2" style="width: 100%; color: rgb(214, 214, 214);">
   <div class="card-body ml-3 dark-card">
-    <h4 class="card-title">Autor: {{comment.user.name}}</h4>
-    <small class="card-subtitle mb-2 text-muted">Comment ID: {{comment.id}} / Replying to: {{post.user.name}}</small>
+    <p class=""><b>Autor: {{comment.user.name}}</b></p>
+    <hr/>
+
+    <small class="card-subtitle mb-2 text-muted">Replying to<b> {{post.user.name}}</b> at {{comment.updated_at  | date :'short'}}</small>
     <p class="card-text">{{comment.text}}</p>
     <div ng-if="logged_user_email() == comment.user.email">
-      <button class="btn btn-dark ml-2 btn-sm" ng-click="destroyComment(post.id, comment.id)">Delete</button>
-      <a class="btn btn-dark ml-2 btn-sm" ng-click="editComment(post.id, comment.id)">Update</a>
+      <button class="btn btn-dark mr-2 btn-sm" ng-click="destroyComment(post.id, comment.id)"><i class="fas fa-trash"></i> Delete</button>
+      <a class="btn btn-dark mr-2 btn-sm" ng-click="editComment(post.id, comment.id)"><i class="fas fa-marker"></i> Update</a>
     </div>
 
   </div>

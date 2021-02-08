@@ -1,0 +1,24 @@
+<a class="btn btn-transparent ml-2 mt-3 mb-2 btn-sm" ng-click="seePosts(1)" ><i
+   class="fas fa-arrow-left fa-3x"></i></a>
+<h1 class="text-center mt-3">Adicione uma Tag</h1>
+<h5 class="text-center"><b>Tags atuais:</b></h5>
+
+<div class="row w-100 ml-5">
+   <div ng-repeat="tag in tags" class="ml-2">
+     <span class="badge badge-info col mr-3">{{tag.name}}</span>
+   </div>
+ </div>
+
+<div class="card-body ml-3 mt-2 dark-card">
+   <form class="" autocomplete="off">
+     <div class="d-flex" style="width: 100%;">
+       <div class="form-group w-100 mr-3">
+         <input type="text" class="form-control form-control-sm"
+           placeholder="Adicione uma nova tag..." ng-model="tagname">
+       </div>
+       <button type="submit" class="btn btn-dark btn-small flex-shrink-1 mb-2" ng-click="newTag(tagname)">Submit</button>
+     </div>
+   </form>
+</div>
+
+ 

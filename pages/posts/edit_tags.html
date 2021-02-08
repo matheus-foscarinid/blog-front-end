@@ -1,0 +1,31 @@
+<a class="btn btn-transparent ml-2 mt-3 mb-2 btn-sm" ng-click="seePosts(1)" ><i
+  class="fas fa-arrow-left fa-3x"></i></a>
+
+<h1 class="text-center mt-3 mb-2">Edição de Tags</h1>
+
+
+
+<div class="card">
+  <div class="card-body row">
+    <div class="col-6">
+      <p class="font-weight-bold ml-2">Tags atuais</p>
+      <div ng-repeat="tag in post.tags" class="ml-2">
+        <span class="badge badge-info">{{tag.name}}<button class="test"
+            ng-click="deleteTag(post.id, tag.id)"></button></span>
+      </div>
+    </div>
+    <form class="col-6">
+      <div class="form-group">
+        <label for="inputState" class="text-center font-weight-bold mr-2 ml-2">Adicionar Tags</label>
+        <select id="inputState" class="form-control dark-card" ng-model="newTag.id" ng-model-options="{allowInvalid:true}">
+          <option ng-repeat="tag in tags">{{tag.id}} - {{tag.name}}</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-dark btn-sm float-right" ng-click="addTag(newTag, post.id)">Atualizar</button>
+    </form>
+    
+  </div>
+</div>
+
+<p class="text-muted flex-sm-row ml-3">Não achou a tag que queria? <a ng-click="addTags()" class="link"
+  href="">Adicione uma tag</a></p>

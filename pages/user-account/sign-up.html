@@ -1,3 +1,6 @@
+<div class="alert alert-danger alert-dismissible fade show display-n error-message" role="alert">
+
+</div>
 <div>
    <h1 class="text-center text-light mt-3">Criar Usuário</h1>
    <form>
@@ -13,11 +16,16 @@
       </div>
       <div class="form-group text-light">
          <label>Password</label>
-         <input type="password" class="form-control bg-dark" placeholder="Insira a senha" value="{{}}"
+         <input type="password" class="form-control bg-dark" placeholder="Insira a senha"
             ng-model="user.password" minlength="6">
       </div>
+      <div class="form-group text-light">
+         <label>Password Confirm</label>
+         <input type="password" class="form-control bg-dark" placeholder="Confirma a senha"
+            ng-model="user.password_confirm" minlength="6">
+      </div>
       <div class="d-flex">
-         <button type="submit" class="btn btn-dark" ng-click="signup(user)">Atualizar</button>
+         <button type="submit" class="btn btn-dark" ng-click="signup(user)">Registrar</button>
          <p class="text-muted flex-sm-row ml-3">Já possui uma conta? <a ng-click="loginPath()" class="link"
                href="">Logue-se</a></p>
       </div>

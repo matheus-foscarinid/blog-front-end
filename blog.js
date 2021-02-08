@@ -3,56 +3,57 @@ var app = angular.module('Blog', ['ngRoute']);
 app.config(['$routeProvider', function config($routeProvider) {
   $routeProvider.
   when('/posts/page/:page_id', {
-    templateUrl: 'pages/home.html',
+    templateUrl: 'pages/posts/home.html',
     controller: "PostsController"
   }).
-  when('/tags', {
-    templateUrl: 'pages/tags.html'
-  }).
   when('/posts/:id', {
-    templateUrl: 'pages/show.html',
+    templateUrl: 'pages/posts/show.html',
     controller: "PostController"
   }).
   when('/create/post', {
-    templateUrl: 'pages/edit.html',
+    templateUrl: 'pages/posts/edit.html',
     controller: "PostsController"
   }).
   when('/posts/:id/edit', {
-      templateUrl: 'pages/edit.html',
+      templateUrl: 'pages/posts/edit.html',
       controller: "PostController"
     })
     .
   when('/posts/:id/comments/:comment_id/edit', {
-    templateUrl: 'pages/edit_comment.html',
+    templateUrl: 'pages/posts/edit_comment.html',
     controller: "PostController"
   }).
   when('/posts/:id/tags', {
-    templateUrl: 'pages/edit_tags.html',
+    templateUrl: 'pages/posts/edit_tags.html',
     controller: "PostController"
   }).
   when('/sobre', {
-    templateUrl: 'pages/about.html',
+    templateUrl: 'pages/static_pages/about.html',
     controller: "PostsController"
   }).
   when('/contato', {
-    templateUrl: 'pages/contact.html',
+    templateUrl: 'pages/static_pages/contact.html',
     controller: "PostsController"
   }).
   when('/login', {
-    templateUrl: 'pages/log-in.html',
+    templateUrl: 'pages/user-account/log-in.html',
     controller: "PostsController"
   }).
   when('/signup', {
-    templateUrl: 'pages/sign-up.html',
+    templateUrl: 'pages/user-account/sign-up.html',
     controller: "PostsController"
   }).
   when('/show-user', {
-    templateUrl: 'pages/my-account.html',
+    templateUrl: 'pages/user-account/my-account.html',
     controller: "PostsController"
   }).
   when('/edit-user', {
-    templateUrl: 'pages/edit_user.html',
+    templateUrl: 'pages/user-account/edit_user.html',
     controller: "PostsController"
+  }).
+  when('/add-tag', {
+    templateUrl: 'pages/add-tag.html',
+    controller: "PostController"
   }).otherwise({
     redirectTo: '/posts/page/1',
     controller: "PostsController"
@@ -87,32 +88,47 @@ app.controller('AplicationController', ['$scope', 'userService', '$location', fu
 
   // Método para SignUp
   $scope.signup = function (user) {
-    userService.createUser(user.name, user.email, user.password).then(function (response) {
-      if (response.error) {
-        $('.error-message').show().text(response.error);
-        $location.url('/login');
-      } else {
-        localStorage.setItem("user_id", response.user.id)
-        localStorage.setItem("user_name", response.user.name)
-        localStorage.setItem("user_email", response.user.email)
-        localStorage.setItem("token", response.token)
-        $('.message').show().text("Bem vindo!");
-        $location.url('/posts');
-        $window.location.reload();
 
-      }
-    })
+    if (user.password != user.password_confirm){
+      $('.error-message').show().text("Senhas incompativeis!");
+      setTimeout(() => { $window.location.reload(); }, 500);
+    }
+    else{
+
+      userService.createUser(user.name, user.email, user.password).then(function (response) {
+        if (response.error) {
+          $('.error-message').show().text(response.error);
+          $location.url('/login');
+        } else {
+          localStorage.setItem("user_id", response.user.id)
+          localStorage.setItem("user_name", response.user.name)
+          localStorage.setItem("user_email", response.user.email)
+          localStorage.setItem("token", response.token)
+          $('.message').show().text("Bem vindo!");
+          $location.url('/posts');
+          $window.location.reload();
+  
+        }
+      })
+
+    }
+
   };
 
   // Editar usuário
   $scope.editUser = function (user_id, name, email, password) {
-    userService.updateUser(user_id, name, email, password).then(function (response) {
-      $scope.editedUser = response;
-      localStorage.setItem("user_name", name)
-      localStorage.setItem("user_email", email)
-    })
-    $('.message').show().text("User editado!");
-    $location.url('/show-user');
+    if(password.length < 6){
+      $('.message').show().text("Senha muito curta!");
+    }else{
+      userService.updateUser(user_id, name, email, password).then(function (response) {
+        $scope.editedUser = response;
+        localStorage.setItem("user_name", name)
+        localStorage.setItem("user_email", email)
+      })
+      $('.message').show().text("User editado!");
+      $location.url('/show-user');
+    }
+    
   };
 
   // User paths
@@ -154,8 +170,8 @@ app.controller('AplicationController', ['$scope', 'userService', '$location', fu
     localStorage.removeItem('user_name');
     localStorage.removeItem('user_email');
     localStorage.removeItem('token');
-    $('.message').show().text("User apagado!");
     $location.url('/login');
+    $('.message').show().text("User apagado!");
   };
 
   // Testa se o usuario está logado
@@ -207,7 +223,7 @@ app.controller('PostsController', ['$scope', 'postService', '$location', '$route
       $scope.deletePost = response;
     })
     $('.message').show().text("Post deletado!");
-    $window.location.reload();
+    setTimeout(() => { $window.location.reload(); }, 500);
   };
 
   $scope.createPost = function () {
@@ -218,28 +234,11 @@ app.controller('PostsController', ['$scope', 'postService', '$location', '$route
     $location.url('/posts/page/' + page_id);
   };
 
-  $scope.nextPage = function () {
-    let pageCount = parseInt($routeParams.page_id) + 1
-    $location.url('/posts/page/' + pageCount);
-  };
-
-  $scope.previousPage = function () {
-    let pageCount = 0
-    if(parseInt($routeParams.page_id) - 1 > 0){
-       pageCount = parseInt($routeParams.page_id) - 1
-    }
-    else {
-       pageCount = parseInt($routeParams.page_id)
-    }
-    $location.url('/posts/page/' + pageCount);
-  };
-
   $scope.updatePost = function (post_id) {
     $location.url('posts/' + post_id + '/edit');
   };
 
   $scope.changePost = function (post) {
-    console.log(post)
     if (!post.title || !post.description) {
       $('.error-message').show().text("Campos não aceitos!");
       $location.url(`create/post`);
@@ -249,7 +248,6 @@ app.controller('PostsController', ['$scope', 'postService', '$location', '$route
 
     } else {
       if (post.id) {
-        console.log(post)
         postService.updateOne(post).then(function (response) {
           $scope.updatePost = response;
         })
@@ -267,11 +265,30 @@ app.controller('PostsController', ['$scope', 'postService', '$location', '$route
 
   };
 
+  //Paginação
+  $scope.nextPage = function () {
+    let pageCount = parseInt($routeParams.page_id) + 1
+    $location.url('/posts/page/' + pageCount);
+    scroll(0,0)
+  };
+
+  $scope.previousPage = function () {
+    let pageCount = 0
+    if(parseInt($routeParams.page_id) - 1 > 0){
+       pageCount = parseInt($routeParams.page_id) - 1
+    }
+    else {
+       pageCount = parseInt($routeParams.page_id)
+    }
+    $location.url('/posts/page/' + pageCount);
+    scroll(0,0)
+  };
+
+  //Comentários 
   $scope.createComment = function (comment) {
     commentService.addComment($scope.post.id, comment).then(function (response) {
       $scope.newComment = response;
     });
-    $window.location.reload();
   };
 
   $scope.destroyComment = function (post_id, comment_id) {
@@ -279,8 +296,7 @@ app.controller('PostsController', ['$scope', 'postService', '$location', '$route
       $scope.deleteComment = response;
     })
     $('.message').show().text("Comentário Deletado!");
-
-    $window.location.reload();
+    setTimeout(() => { $window.location.reload(); }, 500);
   };
 
   $scope.editComment = function (post_id, comment_id) {
@@ -321,19 +337,29 @@ app.controller('PostController', ['$scope', 'postService', '$location', '$routeP
     $location.url('/posts/' + post_id + '/tags');
   };
 
+  $scope.addTags = function () {
+    $location.url('/add-tag');
+  };
+
   $scope.deleteTag = function (post_id, tag_id) {
     postService.unlinkTag(post_id, tag_id).then(function (response) {
       $scope.delTag = response;
     })
 
-    $window.location.reload();
     $('.message').show().text("Tag Deletada!");
-
+    setTimeout(() => { $window.location.reload(); }, 500);
   };
 
   tagService.getTags().then(function (response) {
     $scope.tags = response;
   });
+
+  $scope.newTag = function (tagName) {
+    tagService.createTag(tagName).then(function (response) {
+      $scope.createdTag = response;
+    })
+    $window.location.reload();
+  };
 
   $scope.addTag = function (newTag, post_id) {
     if (newTag.id) {
@@ -344,8 +370,8 @@ app.controller('PostController', ['$scope', 'postService', '$location', '$routeP
       })
 
     }
-    $window.location.reload();
     $('.message').show().text("Tag Adicionada!");
+    setTimeout(() => { $window.location.reload(); }, 500);
 
   };
 
@@ -362,12 +388,13 @@ app.controller('PostController', ['$scope', 'postService', '$location', '$routeP
     postService.deleteOne(post_id).then(function (response) {
       $scope.deletePost = response;
     })
-    $window.location.reload();
+    $('.message').show().text("Post deletado!");
+    setTimeout(() => { $window.location.reload(); }, 500);
+
   };
 
   $scope.changePost = function (post) {
     if (post.id) {
-      console.log(post)
       postService.updateOne(post).then(function (response) {
         $scope.updatePost = response;
       })
@@ -400,12 +427,17 @@ app.controller('PostController', ['$scope', 'postService', '$location', '$routeP
 
   //Relativos a comentários
   $scope.createComment = function (comment) {
-    commentService.addComment($scope.post.id, comment).then(function (response) {
-      $scope.newComment = response;
-    });
-    $('.message').show().text("Comentário adicionado!");
-    $window.location.reload();
-
+    if( comment.text.length < 5 ){
+      $('.error-message').show().text("Comentário muito curto!");
+      setTimeout(() => { $window.location.reload(); }, 500);
+    }else{
+      commentService.addComment($scope.post.id, comment).then(function (response) {
+        $scope.newComment = response;
+      });
+      $('.message').show().text("Comentário adicionado!");
+      setTimeout(() => { $window.location.reload(); }, 500);
+    }
+    
   };
 
   $scope.destroyComment = function (post_id, comment_id) {
@@ -422,21 +454,26 @@ app.controller('PostController', ['$scope', 'postService', '$location', '$routeP
   $scope.changeComment = function (post_id, comment) {
     commentService.editComment(post_id, comment).then(function (response) {
       $scope.editedComment = response;
+      $location.url('posts/' + post_id);
+
     })
-    $location.url(`posts/` + post_id);
   };
 
 }]);
 
+
+
 // Funções relativas as requisições de Post
 app.service('postService', function ($http) {
 
+  //Pega um post
   const getOne = (post_id) => $http.get(`http://localhost:3000/posts/${post_id}.json`, {
     headers: {
       'Authorization': localStorage.getItem('token')
     }
   }).then((response) => response.data)
 
+  //Pega todos os posts da página
   const getAll = (page_id) => $http.get(`http://localhost:3000/posts.json?page=${page_id}`).then((response) => response.data)
 
   const deleteOne = (post_id) => $http.delete(`http://localhost:3000/posts/${post_id}.json`, {
@@ -445,6 +482,7 @@ app.service('postService', function ($http) {
     }
   }).then((response) => response.data)
 
+  // Deslinka tag a um post
   const unlinkTag = (post_id, tag_id) => $http({
     method: 'DELETE',
     url: `http://localhost:3000/posts/${post_id}/tag.json`,
@@ -459,6 +497,7 @@ app.service('postService', function ($http) {
     }
   }).then((response) => response.data)
 
+  // Linka tag a um post
   const linkTag = (post_id, tag_id) => $http({
     method: 'POST',
     url: `http://localhost:3000/posts/${post_id}/tag.json`,
@@ -482,6 +521,7 @@ app.service('postService', function ($http) {
     }
   }).then((response) => response.data)
 
+  // Atualiza um Post
   const updateOne = (post) => $http({
     method: 'PUT',
     url: `http://localhost:3000/posts/${post.id}.json`,
@@ -501,7 +541,6 @@ app.service('postService', function ($http) {
     updateOne
   }
 });
-
 
 // Funções relativas as requisições de Usuário
 app.service('userService', function ($http) {
@@ -560,7 +599,6 @@ app.service('userService', function ($http) {
   }
 });
 
-
 // Funções relativas as requisições de Comentário
 app.service('commentService', function ($http) {
 
@@ -605,7 +643,6 @@ app.service('commentService', function ($http) {
   }
 });
 
-
 // Funções relativas as requisições de Tag
 app.service('tagService', function ($http) {
 
@@ -617,7 +654,18 @@ app.service('tagService', function ($http) {
     }
   }).then((response) => response.data)
 
+  const createTag = (tagName) => $http({
+    method: 'POST',
+    url: `http://localhost:3000/tags.json`,
+    data: {
+      "tag": {"name": tagName}
+    },
+    headers: {
+      'Authorization': localStorage.getItem('token')
+    }
+  }).then((response) => response.data)
+
   return {
-    getTags
+    getTags, createTag
   }
 });
